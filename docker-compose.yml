@@ -1,0 +1,38 @@
+version: "3.8"
+
+services:
+  omnivla-cpu:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: omnivla-cpu:latest
+    container_name: omnivla_inference
+    volumes:
+      # Monta la carpeta de inferencia para leer inputs y escribir outputs
+      - ./inference:/app/inference
+      # Monta el modelo (no se copia dentro de la imagen para ahorrar espacio)
+      - ./omnivla-edge:/app/omnivla-edge
+      # Carpeta donde aparecen los resultados (.jpg generados)
+      - ./outputs:/app/outputs
+    environment:
+      - OMP_NUM_THREADS=4
+      - MKL_NUM_THREADS=4
+      - OPENVINO_ENABLED=1
+    # Comando por defecto: inferencia CPU
+    command: python inference/run_omnivla_edge_cpu.py
+    # Para convertir el modelo a OpenVINO (ejecutar una sola vez):
+    # command: python inference/convert_to_openvino.py
+
+  # Servicio alternativo solo para convertir el modelo
+  omnivla-convert:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: omnivla-cpu:latest
+    container_name: omnivla_convert
+    volumes:
+      - ./omnivla-edge:/app/omnivla-edge
+      - ./omnivla-edge-ov:/app/omnivla-edge-ov
+    command: python inference/convert_to_openvino.py
+    profiles:
+      - convert

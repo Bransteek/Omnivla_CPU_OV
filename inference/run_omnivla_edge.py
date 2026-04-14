@@ -424,7 +424,7 @@ if __name__ == "__main__":
     # select modality
     pose_goal = False
     satellite = False
-    image_goal = False
+    image_goal = False  
     lan_prompt = True
 
     imgsize = (96, 96)    
@@ -432,7 +432,7 @@ if __name__ == "__main__":
 
     # Goal definitions
     # language prompt
-    lan_inst_prompt = "blue trash bin"
+    lan_inst_prompt = "gray fridge"
     
     # GPS signal
     goal_lat, goal_lon, goal_compass = 37.8738930785863, -122.26746181032362, 0.0
