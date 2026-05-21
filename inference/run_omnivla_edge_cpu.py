@@ -283,7 +283,7 @@ class Inference:
         print("Generated action chunk", predicted_actions)
 
         waypoints       = predicted_actions.float().numpy()
-        waypoint_select = 4
+        waypoint_select = 5
         chosen_waypoint = waypoints[0][waypoint_select].copy()
         chosen_waypoint[:2] *= metric_waypoint_spacing
         dx, dy, hx, hy  = chosen_waypoint
@@ -391,8 +391,8 @@ if __name__ == "__main__":
     # Cambia estas 4 variables para elegir el tipo de goal:
     pose_goal  = False   # True = usar GPS
     satellite  = False   # True = usar mapa satelital
-    image_goal = False   # True = usar imagen goal
-    lan_prompt = True    # True = usar texto
+    image_goal = True   # True = usar imagen goal
+    lan_prompt = False    # True = usar texto
 
     imgsize      = (96,  96)
     imgsize_clip = (224, 224)
